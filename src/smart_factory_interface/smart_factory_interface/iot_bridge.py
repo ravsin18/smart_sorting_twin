@@ -43,6 +43,7 @@ class IoTBridge(Node):
         # 4. Publish to Digital Twin
         json_str = json.dumps(payload)
         self.mqtt_client.publish(MQTT_TOPIC, json_str)
+        self.get_logger().info(f"Published: {json_str[:50]}...")
 
 def main(args=None):
     rclpy.init(args=args)

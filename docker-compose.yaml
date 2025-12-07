@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # SERVICE 1: THE ROBOT BRAIN (ROS 2 + MoveIt)
+  robot_brain:
+    build: .                      # Build the Dockerfile in this folder
+    container_name: sorting_robot # Name the container so it's easy to find
+    
+    # GPU CONFIGURATION (For your GTX 1650)
+    # This gives the container permission to access your graphics card
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    # DISPLAY SETTINGS (To see Gazebo/RViz)
+    environment:
+      - DISPLAY=${DISPLAY}        # Use your Windows monitor
+      - QT_X11_NO_MITSHM=1        # Fix graphical glitches
+
+    # VOLUMES (The "Magic Portal")
+    # 1. Syncs your 'src' folder so you can code in Windows and run in Linux
+    # 2. Syncs the display socket for the GUI
+    volumes:
+      - ./src:/root/ws_moveit/src
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+    # NETWORK
+    # 'host' mode means the container shares your laptop's IP address.
+    # This makes it easy for ROS to talk to other devices on your WiFi.
+    network_mode: host
+
+    # KEEP ALIVE
+    # Keeps the container running forever so you can log in and out.
+    command: bash -c "source /opt/ros/humble/setup.bash && tail -f /dev/null"
+    tty: true
+
+  # SERVICE 2: THE MQTT BROKER (The "Post Office")
+  mqtt_broker:
+    image: eclipse-mosquitto    # Download the official Mosquitto image
+    container_name: mqtt_broker
+    network_mode: host          # Share network so the robot can find it at 'localhost'
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf # Load our config settings

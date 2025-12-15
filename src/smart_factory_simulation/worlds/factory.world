@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="default">
+    <include><uri>model://sun</uri></include>
+    <include><uri>model://ground_plane</uri></include>
+
+    <include>
+      <name>work_table</name>
+      <uri>model://table</uri>
+      <pose>0.8 0 0 0 0 1.57</pose>
+    </include>
+
+    <model name="bin_red">
+      <pose>-0.5 -0.6 0.8 0 0 0</pose> <static>true</static>
+      <link name="link">
+        <visual name="bottom"><geometry><box><size>0.4 0.3 0.02</size></box></geometry><material><script><name>Gazebo/Red</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="bottom_col"><geometry><box><size>0.4 0.3 0.02</size></box></geometry></collision>
+        
+        <visual name="w1"><pose>0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry><material><script><name>Gazebo/Red</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c1"><pose>0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry></collision>
+        <visual name="w2"><pose>-0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry><material><script><name>Gazebo/Red</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c2"><pose>-0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry></collision>
+        <visual name="w3"><pose>0 0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry><material><script><name>Gazebo/Red</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c3"><pose>0 0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry></collision>
+        <visual name="w4"><pose>0 -0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry><material><script><name>Gazebo/Red</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c4"><pose>0 -0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry></collision>
+        
+        <visual name="stand"><pose>0 0 -0.4 0 0 0</pose><geometry><box><size>0.1 0.1 0.8</size></box></geometry><material><script><name>Gazebo/Grey</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+      </link>
+    </model>
+
+    <model name="bin_green">
+      <pose>-0.5 0.0 0.8 0 0 0</pose> <static>true</static>
+      <link name="link">
+        <visual name="bottom"><geometry><box><size>0.4 0.3 0.02</size></box></geometry><material><script><name>Gazebo/Green</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="bottom_col"><geometry><box><size>0.4 0.3 0.02</size></box></geometry></collision>
+        
+        <visual name="w1"><pose>0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry><material><script><name>Gazebo/Green</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c1"><pose>0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry></collision>
+        <visual name="w2"><pose>-0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry><material><script><name>Gazebo/Green</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c2"><pose>-0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry></collision>
+        <visual name="w3"><pose>0 0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry><material><script><name>Gazebo/Green</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c3"><pose>0 0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry></collision>
+        <visual name="w4"><pose>0 -0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry><material><script><name>Gazebo/Green</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c4"><pose>0 -0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry></collision>
+
+        <visual name="stand"><pose>0 0 -0.4 0 0 0</pose><geometry><box><size>0.1 0.1 0.8</size></box></geometry><material><script><name>Gazebo/Grey</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+      </link>
+    </model>
+
+    <model name="bin_blue">
+      <pose>-0.5 0.6 0.8 0 0 0</pose> <static>true</static>
+      <link name="link">
+        <visual name="bottom"><geometry><box><size>0.4 0.3 0.02</size></box></geometry><material><script><name>Gazebo/Blue</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="bottom_col"><geometry><box><size>0.4 0.3 0.02</size></box></geometry></collision>
+        
+        <visual name="w1"><pose>0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry><material><script><name>Gazebo/Blue</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c1"><pose>0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry></collision>
+        <visual name="w2"><pose>-0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry><material><script><name>Gazebo/Blue</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c2"><pose>-0.19 0 0.1 0 0 0</pose><geometry><box><size>0.02 0.3 0.2</size></box></geometry></collision>
+        <visual name="w3"><pose>0 0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry><material><script><name>Gazebo/Blue</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c3"><pose>0 0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry></collision>
+        <visual name="w4"><pose>0 -0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry><material><script><name>Gazebo/Blue</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+        <collision name="c4"><pose>0 -0.14 0.1 0 0 0</pose><geometry><box><size>0.4 0.02 0.2</size></box></geometry></collision>
+        
+        <visual name="stand"><pose>0 0 -0.4 0 0 0</pose><geometry><box><size>0.1 0.1 0.8</size></box></geometry><material><script><name>Gazebo/Grey</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
+      </link>
+    </model>
+
+    <include><name>coke_1</name><uri>model://coke_can</uri><pose>0.6 -0.2 1.05 0 0 2.0</pose></include>
+    <include><name>coke_2</name><uri>model://coke_can</uri><pose>0.9 0.1 1.05 0 0 1.0</pose></include>
+    <include><name>bottle_1</name><uri>model://beer</uri><pose>0.7 0.3 1.05 0 0 0.0</pose></include>
+    <include><name>bottle_2</name><uri>model://beer</uri><pose>0.8 -0.3 1.05 0 0 0.0</pose></include>
+    <include><name>hammer_1</name><uri>model://hammer</uri><pose>0.7 0.0 1.05 0 0 0.0</pose></include>
+
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+  </world>
+</sdf>

@@ -1,0 +1,348 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+
+    <xacro:macro name="default_inertial" params="mass">
+        <inertial>
+            <mass value="${mass}"/>
+            <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+        </inertial>
+    </xacro:macro>
+
+    <link name="world"/>
+    <link name="pedestal">
+        <visual>
+            <geometry><box size="0.2 0.2 0.9"/></geometry>
+            <material name="gray"><color rgba="0.2 0.2 0.2 1"/></material>
+            <origin xyz="0 0 0.44"/>
+        </visual>
+        <collision>
+            <geometry><box size="0.2 0.2 0.9"/></geometry>
+            <origin xyz="0 0 0.45"/>
+        </collision>
+        <inertial>
+            <mass value="20.0"/>
+            <origin xyz="0 0 0.45"/>
+            <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0"/>
+        </inertial>
+    </link>
+    <joint name="world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="pedestal"/>
+    </joint>
+
+    <joint name="robot_mount" type="fixed">
+        <parent link="pedestal"/>
+        <child link="panda_link0"/>
+        <origin xyz="0 0 0.9" rpy="0 0 0"/>
+    </joint>
+
+    <link name="panda_link0">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link0.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link0.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="3.0"/>
+    </link>
+
+    <joint name="panda_joint1" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0 0.333"/>
+        <parent link="panda_link0"/>
+        <child link="panda_link1"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/>
+    </joint>
+    <link name="panda_link1">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link1.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link1.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="2.3"/>
+    </link>
+
+    <joint name="panda_joint2" type="revolute">
+        <origin rpy="-1.57079632679 0 0" xyz="0 0 0"/>
+        <parent link="panda_link1"/>
+        <child link="panda_link2"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="87" lower="-1.7628" upper="1.7628" velocity="2.1750"/>
+    </joint>
+    <link name="panda_link2">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link2.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link2.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="2.3"/>
+    </link>
+
+    <joint name="panda_joint3" type="revolute">
+        <origin rpy="1.57079632679 0 0" xyz="0 -0.316 0"/>
+        <parent link="panda_link2"/>
+        <child link="panda_link3"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/>
+    </joint>
+    <link name="panda_link3">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link3.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link3.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="2.0"/>
+    </link>
+
+    <joint name="panda_joint4" type="revolute">
+        <origin rpy="1.57079632679 0 0" xyz="0.0825 0 0"/>
+        <parent link="panda_link3"/>
+        <child link="panda_link4"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="87" lower="-3.0718" upper="-0.0698" velocity="2.1750"/>
+    </joint>
+    <link name="panda_link4">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link4.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link4.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="2.0"/>
+    </link>
+
+    <joint name="panda_joint5" type="revolute">
+        <origin rpy="-1.57079632679 0 0" xyz="-0.0825 0.384 0"/>
+        <parent link="panda_link4"/>
+        <child link="panda_link5"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="12" lower="-2.8973" upper="2.8973" velocity="2.6100"/>
+    </joint>
+    <link name="panda_link5">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link5.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link5.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="1.5"/>
+    </link>
+
+    <joint name="panda_joint6" type="revolute">
+        <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+        <parent link="panda_link5"/>
+        <child link="panda_link6"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="12" lower="-0.0175" upper="3.7525" velocity="2.6100"/>
+    </joint>
+    <link name="panda_link6">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link6.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link6.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="1.5"/>
+    </link>
+
+    <joint name="panda_joint7" type="revolute">
+        <origin rpy="1.57079632679 0 0" xyz="0.088 0 0"/>
+        <parent link="panda_link6"/>
+        <child link="panda_link7"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="12" lower="-2.8973" upper="2.8973" velocity="2.6100"/>
+    </joint>
+    <link name="panda_link7">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link7.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/link7.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="1.0"/>
+    </link>
+
+    <joint name="panda_joint8" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0.107"/>
+        <parent link="panda_link7"/>
+        <child link="panda_link8"/>
+    </joint>
+    <link name="panda_link8">
+        <xacro:default_inertial mass="0.5"/>
+    </link>
+
+    <joint name="panda_hand_joint" type="fixed">
+        <parent link="panda_link8"/>
+        <child link="panda_hand"/>
+        <origin rpy="0 0 -0.785398163397" xyz="0 0 0"/>
+    </joint>
+    <link name="panda_hand">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/hand.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/hand.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="0.6"/>
+    </link>
+
+    <joint name="panda_finger_joint1" type="prismatic">
+        <parent link="panda_hand"/>
+        <child link="panda_leftfinger"/>
+        <origin rpy="0 0 0" xyz="0 0 0.0584"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="20" lower="0.0" upper="0.04" velocity="0.2"/>
+    </joint>
+    <link name="panda_leftfinger">
+        <visual>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/finger.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/finger.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="0.1"/>
+    </link>
+
+    <joint name="panda_finger_joint2" type="prismatic">
+        <parent link="panda_hand"/>
+        <child link="panda_rightfinger"/>
+        <origin rpy="0 0 0" xyz="0 0 0.0584"/>
+        <axis xyz="0 -1 0"/>
+        <limit effort="20" lower="0.0" upper="0.04" velocity="0.2"/>
+    </joint>
+    <link name="panda_rightfinger">
+        <visual>
+            <origin rpy="0 0 3.14159265359" xyz="0 0 0"/>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/finger.stl"/></geometry>
+            <material name="white"><color rgba="1 1 1 1"/></material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 3.14159265359" xyz="0 0 0"/>
+            <geometry><mesh filename="file:///root/ws_moveit/src/smart_factory_simulation/meshes/collision/finger.stl"/></geometry>
+        </collision>
+        <xacro:default_inertial mass="0.1"/>
+    </link>
+
+    <link name="camera_pole">
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+        </inertial>
+    </link>
+
+    <joint name="pole_joint" type="fixed">
+        <parent link="world"/>
+        <child link="camera_pole"/>
+        <origin xyz="1.0 -1.0 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="camera_joint" type="fixed">
+        <parent link="camera_pole"/>
+        <child link="camera_link"/>
+        <origin xyz="0 0 2.0" rpy="0 0.6 2.5"/> 
+    </joint>
+
+    <link name="camera_link">
+        <visual>
+            <geometry><box size="0.02 0.05 0.02"/></geometry>
+            <material name="black"><color rgba="2 2 0 1"/></material>
+        </visual>
+        <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
+        <xacro:default_inertial mass="0.05"/>
+    </link>
+
+    <gazebo reference="camera_link">
+        <material>Gazebo/Black</material>
+        <sensor type="camera" name="smart_camera">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+                <horizontal_fov>1.2</horizontal_fov>
+                <image><width>640</width><height>480</height><format>R8G8B8</format></image>
+                <clip><near>0.02</near><far>300</far></clip>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>smart_factory/camera</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>camera_link</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <ros2_control name="GazeboSystem" type="system">
+        <hardware><plugin>gazebo_ros2_control/GazeboSystem</plugin></hardware>
+        
+        <joint name="panda_joint1">
+            <command_interface name="position"/>
+            <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+            <state_interface name="velocity"/>
+        </joint>
+        
+        <joint name="panda_joint2">
+            <command_interface name="position"/>
+            <state_interface name="position"><param name="initial_value">-0.785</param></state_interface> <state_interface name="velocity"/>
+        </joint>
+        
+        <joint name="panda_joint3">
+            <command_interface name="position"/>
+            <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+            <state_interface name="velocity"/>
+        </joint>
+        
+        <joint name="panda_joint4">
+            <command_interface name="position"/>
+            <state_interface name="position"><param name="initial_value">-2.356</param></state_interface> <state_interface name="velocity"/>
+        </joint>
+        
+        <joint name="panda_joint5">
+            <command_interface name="position"/>
+            <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+            <state_interface name="velocity"/>
+        </joint>
+        
+        <joint name="panda_joint6">
+            <command_interface name="position"/>
+            <state_interface name="position"><param name="initial_value">1.571</param></state_interface> <state_interface name="velocity"/>
+        </joint>
+        
+        <joint name="panda_joint7">
+            <command_interface name="position"/>
+            <state_interface name="position"><param name="initial_value">0.785</param></state_interface> <state_interface name="velocity"/>
+        </joint>
+        
+        <joint name="panda_finger_joint1">
+            <command_interface name="position"/>
+            <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+            <state_interface name="velocity"/>
+        </joint>
+        
+        <joint name="panda_finger_joint2">
+            <command_interface name="position"/>
+            <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+            <state_interface name="velocity"/>
+        </joint>
+    </ros2_control>
+
+    <gazebo>
+        <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+            <parameters>$(find smart_factory_simulation)/config/ros2_controllers.yaml</parameters>
+        </plugin>
+    </gazebo>
+
+</robot>

@@ -247,40 +247,64 @@
     <joint name="pole_joint" type="fixed">
         <parent link="world"/>
         <child link="camera_pole"/>
-        <origin xyz="1.0 -1.0 0" rpy="0 0 0"/>
+        <origin xyz="0.8 -1 0" rpy="0 0 0"/>
     </joint>
 
     <joint name="camera_joint" type="fixed">
         <parent link="camera_pole"/>
         <child link="camera_link"/>
-        <origin xyz="0 0 2.0" rpy="0 0.6 2.5"/> 
+        <origin xyz="-0.2 0 2.0" rpy="0 0.78 1.57"/> 
     </joint>
 
     <link name="camera_link">
         <visual>
-            <geometry><box size="0.02 0.05 0.02"/></geometry>
-            <material name="black"><color rgba="2 2 0 1"/></material>
+            <geometry><box size="0.1 0.05 0.05"/></geometry>
+            <material name="red"><color rgba="1 0 0 1"/></material>
         </visual>
-        <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
-        <xacro:default_inertial mass="0.05"/>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
     </link>
 
+    <link name="camera_link_optical">
+        <inertial>
+            <mass value="0.01"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+    </link>
+
+    <joint name="camera_optical_joint" type="fixed">
+        <parent link="camera_link"/>
+        <child link="camera_link_optical"/>
+        <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    </joint>
+
+
+    
     <gazebo reference="camera_link">
-        <material>Gazebo/Black</material>
-        <sensor type="camera" name="smart_camera">
+        <sensor name="smart_depth_camera" type="depth">
             <update_rate>30.0</update_rate>
-            <camera name="head">
-                <horizontal_fov>1.2</horizontal_fov>
+            <camera>
+                <horizontal_fov>1.047</horizontal_fov>
                 <image><width>640</width><height>480</height><format>R8G8B8</format></image>
-                <clip><near>0.02</near><far>300</far></clip>
+                <clip><near>0.1</near><far>5.0</far></clip>
             </camera>
-            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <plugin name="depth_camera_controller" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
-                <cameraName>smart_factory/camera</cameraName>
+                <cameraName>smart_depth_camera</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-                <frameName>camera_link</frameName>
+                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+                <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+                <pointCloudTopicName>points</pointCloudTopicName>
+                
+                <frame_name>camera_link_optical</frame_name> 
+                
+                <hackBaseline>0.07</hackBaseline>
             </plugin>
         </sensor>
     </gazebo>
@@ -343,6 +367,14 @@
         <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
             <parameters>$(find smart_factory_simulation)/config/ros2_controllers.yaml</parameters>
         </plugin>
+    </gazebo>
+
+    <gazebo reference="camera_joint">
+        <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+
+    <gazebo reference="camera_optical_joint">
+        <preserveFixedJoint>true</preserveFixedJoint>
     </gazebo>
 
 </robot>

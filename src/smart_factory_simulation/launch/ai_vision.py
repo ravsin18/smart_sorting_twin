@@ -12,6 +12,7 @@ from sensor_msgs.msg import PointCloud2, PointField
 import sensor_msgs_py.point_cloud2 as pc2
 from std_msgs.msg import Header
 import pyransac3d as pyrsc
+import torch
 
 from tf2_ros import Buffer, TransformListener
 import tf2_geometry_msgs
@@ -128,33 +129,38 @@ class RGBDVision3D(Node):
 
             # --- AFTER THE LOOP: ONLY PUBLISH THE CLOSEST TARGET ---
 # --- AFTER THE LOOP: ONLY PUBLISH THE CLOSEST TARGET ---
+# --- AFTER THE LOOP: ONLY PUBLISH THE CLOSEST TARGET ---
+# --- AFTER THE LOOP: ONLY PUBLISH THE CLOSEST TARGET ---
             if best_centroid is not None:
                 
-                # --- STRATEGY 2: RANSAC CYLINDER FITTING ---
+                # 1. PYTORCH GPU INTEGRATION (Send points to the AI)
                 try:
-                    # 1. Tighter math tolerance
+                    points_tensor = torch.tensor(best_points, dtype=torch.float32).to('cuda')
+                    self.get_logger().info(f"AI Ready: Sent {points_tensor.shape[0]} points to {points_tensor.device}")
+                except Exception as e:
+                    self.get_logger().error(f"Failed to load Tensor to GPU: {e}")
+
+                # 2. RANSAC CYLINDER FITTING (This calculates target_x, target_y, target_z!)
+                try:
                     cyl = pyrsc.Cylinder()
                     center, direction, radius, inliers = cyl.fit(best_points, thresh=0.002, maxIteration=2000)
                     
-                    # 2. THE SANITY CHECK
                     if radius > 0.05 or radius < 0.015:
                         raise ValueError(f"Hallucinated radius: {radius*100:.1f}cm")
                     
-                    # 3. The Hybrid Target
                     target_x = float(center[0])
                     target_y = float(best_centroid[1]) 
                     target_z = float(center[2])
-                    
                     self.get_logger().info(f"RANSAC SUCCESS: Radius {radius*100:.1f}cm")
 
                 except Exception as e:
-                    # Fallback to the reliable 3cm offset
+                    # Fallback
                     self.get_logger().warn(f"RANSAC Rejected ({str(e)}). Using 3cm offset.")
                     target_x = float(best_centroid[0])
                     target_y = float(best_centroid[1])
                     target_z = float(best_centroid[2]) + 0.03
                     
-                # 3. Publish Coordinate to C++ Node
+                # 3. PUBLISH COORDINATE TO C++ NODE
                 cam_pose = PoseStamped()
                 cam_pose.header.frame_id = "camera_link_optical"
                 cam_pose.header.stamp = self.get_clock().now().to_msg()
@@ -162,7 +168,12 @@ class RGBDVision3D(Node):
                 cam_pose.pose.position.x = target_x
                 cam_pose.pose.position.y = target_y
                 cam_pose.pose.position.z = target_z
-                cam_pose.pose.orientation.w = 1.0 
+                
+                # The Stance Flag Bridge
+                if best_stance == "STANDING":
+                    cam_pose.pose.orientation.w = 2.0  
+                else:
+                    cam_pose.pose.orientation.w = 1.0  
 
                 try:
                     if self.tf_buffer.can_transform("world", "camera_link_optical", rclpy.time.Time()):
@@ -171,7 +182,7 @@ class RGBDVision3D(Node):
                 except Exception as e:
                     pass
 
-                # 4. Publish Point Cloud & Draw UI 
+                # 4. PUBLISH POINT CLOUD & DRAW UI 
                 header = Header()
                 header.stamp = self.get_clock().now().to_msg()
                 header.frame_id = "camera_link_optical"

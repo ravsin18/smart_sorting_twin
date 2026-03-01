@@ -83,6 +83,6 @@ while True:
         if not df.empty and 'joint_positions' in df.columns:
             joints = pd.DataFrame(df['joint_positions'].to_list())
             joints.columns = [f"J{i+1}" for i in range(joints.shape[1])]
-            chart_holder.line_chart(joints[['J1', 'J2']])
+            chart_holder.line_chart(joints)
             
     time.sleep(0.1)
